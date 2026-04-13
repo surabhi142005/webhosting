@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Hosting Journey | Explore Hosting Types</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a1a' width='100' height='100' rx='20'/><circle cx='50' cy='35' r='15' fill='%2300D9FF'/><rect x='35' y='55' width='30' height='25' rx='3' fill='%239B59B6'/><rect x='25' y='85' width='50' height='8' rx='2' fill='%234ECDC4'/></svg>">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --shared-1: #FF6B6B;
+            --shared-2: #FFE66D;
+            --vps-1: #4ECDC4;
+            --vps-2: #45B7D1;
+            --dedicated-1: #9B59B6;
+            --dedicated-2: #E74C3C;
+            --cloud-1: #00D9FF;
+            --cloud-2: #667EEA;
+            --managed-1: #F093FB;
+            --managed-2: #F5576C;
+            --bg-dark: #0a0a1a;
+            --text-light: #ffffff;
+            --text-muted: #a0a0c0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::selection {
+            background: var(--cloud-1);
+            color: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--cloud-1), var(--managed-1));
+            border-radius: 4px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cloud-1), var(--managed-1));
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: var(--text-light);
+            transform: scale(1.3);
+        }
+
+        .nav-dot::before {
+            content: attr(data-label);
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            font-size: 12px;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .nav-dot:hover::before {
+            opacity: 1;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            overflow: hidden;
+        }
+
+        /* Floating Background Elements */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .floating-shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: floatShape 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatShape {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        /* Hero Section */
+        #hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a3a 100%);
+        }
+
+        #hero .bg-orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: var(--cloud-1);
+            top: 10%;
+            left: 10%;
+        }
+
+        #hero .bg-orb:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            background: var(--managed-1);
+            bottom: 20%;
+            right: 15%;
+            animation-delay: -7s;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--cloud-1);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--text-light) 0%, var(--cloud-1) 50%, var(--managed-1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.6s;
+        }
+
+        .hero-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.9s;
+        }
+
+        .hero-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .hero-icon:nth-child(2) { animation-delay: -1s; }
+        .hero-icon:nth-child(3) { animation-delay: -2s; }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            font-size: 12px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.2s;
+        }
+
+        .scroll-indicator .arrow {
+            width: 24px;
+            height: 24px;
+            border-right: 2px solid var(--text-muted);
+            border-bottom: 2px solid var(--text-muted);
+            transform: rotate(45deg);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: rotate(45deg) translate(0, 0); }
+            50% { transform: rotate(45deg) translate(5px, 5px); }
+        }
+
+        /* Hosting Sections */
+        .hosting-section {
+            position: relative;
+        }
+
+        .hosting-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 26, 0.8) 100%);
+            pointer-events: none;
+        }
+
+        .hosting-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hosting-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hosting-icon-large {
+            width: 280px;
+            height: 280px;
+            position: relative;
+        }
+
+        .hosting-icon-large svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            inset: -20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: spin 20s linear infinite;
+        }
+
+        .orbit-ring:nth-child(2) {
+            inset: -40px;
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: currentColor;
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .hosting-info {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .hosting-info.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .hosting-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .hosting-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hosting-description {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .hosting-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .card-column h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .card-column ul {
+            list-style: none;
+        }
+
+        .card-column li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .card-column li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .pros li::before { background: #4ade80; }
+        .cons li::before { background: #f87171; }
+
+        /* Section-specific colors */
+        #shared {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(255, 107, 107, 0.1) 100%);
+        }
+        #shared .label { color: var(--shared-1); }
+        #shared .hosting-icon-large { color: var(--shared-1); }
+        #shared .bg-orb { background: var(--shared-1); }
+
+        #vps {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(78, 205, 196, 0.1) 100%);
+        }
+        #vps .label { color: var(--vps-1); }
+        #vps .hosting-icon-large { color: var(--vps-1); }
+        #vps .bg-orb { background: var(--vps-1); }
+
+        #dedicated {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(155, 89, 182, 0.1) 100%);
+        }
+        #dedicated .label { color: var(--dedicated-1); }
+        #dedicated .hosting-icon-large { color: var(--dedicated-1); }
+        #dedicated .bg-orb { background: var(--dedicated-1); }
+
+        #cloud {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(0, 217, 255, 0.1) 100%);
+        }
+        #cloud .label { color: var(--cloud-1); }
+        #cloud .hosting-icon-large { color: var(--cloud-1); }
+        #cloud .bg-orb { background: var(--cloud-1); }
+
+        #managed {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(240, 147, 251, 0.1) 100%);
+        }
+        #managed .label { color: var(--managed-1); }
+        #managed .hosting-icon-large { color: var(--managed-1); }
+        #managed .bg-orb { background: var(--managed-1); }
+
+        /* Comparison Section */
+        #comparison {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #1a1a3a 50%, var(--bg-dark) 100%);
+            padding: 100px 20px;
+        }
+
+        .comparison-content {
+            max-width: 1000px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .comparison-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table th {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table tr {
+            transition: background 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .comparison-table tr.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .type-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .type-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .type-dot.shared { background: var(--shared-1); }
+        .type-dot.vps { background: var(--vps-1); }
+        .type-dot.dedicated { background: var(--dedicated-1); }
+        .type-dot.cloud { background: var(--cloud-1); }
+        .type-dot.managed { background: var(--managed-1); }
+
+        .cost-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .cost-low { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+        .cost-medium { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        .cost-high { background: rgba(248, 113, 113, 0.2); color: #f87171; }
+        .cost-flexible { background: rgba(0, 217, 255, 0.2); color: var(--cloud-1); }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cloud-1), var(--managed-1), transparent);
+        }
+
+        .footer-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 20px;
+        }
+
+        .footer-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--cloud-1), var(--managed-1));
+            color: var(--bg-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        .footer-bottom {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hosting-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hosting-visual {
+                order: -1;
+            }
+
+            .hosting-icon-large {
+                width: 200px;
+                height: 200px;
+            }
+
+            .card-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-dots {
+                display: none;
+            }
+
+            .comparison-table {
+                display: block;
+            }
+
+            .comparison-table thead {
+                display: none;
+            }
+
+            .comparison-table tbody {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .comparison-table tr {
+                display: flex;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 12px;
+                padding: 15px;
+            }
+
+            .comparison-table td {
+                padding: 8px 0;
+                border: none;
+            }
+
+            .comparison-table td::before {
+                content: attr(data-label);
+                font-size: 11px;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                display: block;
+                margin-bottom: 4px;
+            }
+        }
+
+        /* Animations for scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <nav class="nav-dots">
+        <div class="nav-dot active" data-section="hero" data-label="Home"></div>
+        <div class="nav-dot" data-section="shared" data-label="Shared"></div>
+        <div class="nav-dot" data-section="vps" data-label="VPS"></div>
+        <div class="nav-dot" data-section="dedicated" data-label="Dedicated"></div>
+        <div class="nav-dot" data-section="cloud" data-label="Cloud"></div>
+        <div class="nav-dot" data-section="managed" data-label="Managed"></div>
+        <div class="nav-dot" data-section="comparison" data-label="Compare"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                Web Hosting Explorer
+            </div>
+            <h1 class="hero-title">Discover Your Perfect Hosting</h1>
+            <p class="hero-subtitle">Embark on a journey through the five pillars of web hosting. From budget-friendly shared servers to enterprise-grade dedicated solutions.</p>
+            <div class="hero-icons">
+                <div class="hero-icon" style="color: var(--shared-1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                        <path d="M9 9h6M9 13h6M9 17h4"/>
+                    </svg>
+                </div>
+                <div class="hero-icon" style="color: var(--vps-1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="6" width="20" height="12" rx="2"/>
+                        <path d="M6 12h.01M10 12h.01M14 12h.01M18 12h.01"/>
+                    </svg>
+                </div>
+                <div class="hero-icon" style="color: var(--cloud-1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- Shared Hosting -->
+    <section id="shared" class="hosting-section">
+        <div class="bg-orb" style="width: 500px; height: 500px; top: 20%; left: -10%;"></div>
+        
+        <div class="hosting-content">
+            <div class="hosting-visual reveal-left">
+                <div class="hosting-icon-large">
+                    <div class="orbit-ring">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <div class="orbit-ring">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <svg viewBox="0 0 200 200" fill="none">
+                        <rect x="40" y="60" width="120" height="80" rx="8" stroke="currentColor" stroke-width="3" fill="rgba(255,107,107,0.1)"/>
+                        <rect x="50" y="70" width="25" height="25" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(255,107,107,0.2)"/>
+                        <rect x="80" y="70" width="25" height="25" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(255,107,107,0.2)"/>
+                        <rect x="110" y="70" width="25" height="25" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(255,107,107,0.2)"/>
+                        <rect x="50" y="100" width="25" height="25" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(255,107,107,0.2)"/>
+                        <rect x="80" y="100" width="55" height="25" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(255,107,107,0.2)"/>
+                        <rect x="80" y="150" width="40" height="6" rx="3" fill="currentColor" opacity="0.5"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="hosting-info">
+                <div class="label hosting-label">01 — Shared Hosting</div>
+                <h2 class="hosting-title" style="color: var(--shared-1);">Share & Save</h2>
+                <p class="hosting-description">
+                    The most economical entry point for your online journey. Multiple websites coexist on a single server, sharing resources like RAM, CPU, and bandwidth. Perfect launchpad for beginners and small projects.
+                </p>
+                <div class="hosting-card">
+                    <div class="card-row">
+                        <div class="card-column">
+                            <h4>Pros</h4>
+                            <ul class="pros">
+                                <li>Very low cost entry</li>
+                                <li>User-friendly cPanel</li>
+                                <li>Zero technical knowledge needed</li>
+                                <li>Quick setup time</li>
+                            </ul>
+                        </div>
+                        <div class="card-column">
+                            <h4>Cons</h4>
+                            <ul class="cons">
+                                <li>Shared resources mean shared slowdowns</li>
+                                <li>Limited performance under traffic spikes</li>
+                                <li>Security vulnerabilities from neighbors</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VPS Hosting -->
+    <section id="vps" class="hosting-section">
+        <div class="bg-orb" style="width: 400px; height: 400px; bottom: 20%; right: -5%;"></div>
+        
+        <div class="hosting-content">
+            <div class="hosting-info">
+                <div class="label hosting-label">02 — VPS Hosting</div>
+                <h2 class="hosting-title" style="color: var(--vps-1);">Your Own Virtual Space</h2>
+                <p class="hosting-description">
+                    The balanced middle ground. A single physical server is partitioned into multiple virtual servers, each with dedicated resources. You get your own slice of the pie without breaking the bank.
+                </p>
+                <div class="hosting-card">
+                    <div class="card-row">
+                        <div class="card-column">
+                            <h4>Pros</h4>
+                            <ul class="pros">
+                                <li>Dedicated RAM and CPU allocation</li>
+                                <li>Better security through isolation</li>
+                                <li>Full root access for customization</li>
+                                <li>Scalable resources</li>
+                            </ul>
+                        </div>
+                        <div class="card-column">
+                            <h4>Cons</h4>
+                            <ul class="cons">
+                                <li>Requires technical expertise</li>
+                                <li>Higher cost than shared</li>
+                                <li>Still shares underlying hardware</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hosting-visual reveal-right">
+                <div class="hosting-icon-large">
+                    <div class="orbit-ring">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <svg viewBox="0 0 200 200" fill="none">
+                        <rect x="30" y="50" width="140" height="100" rx="8" stroke="currentColor" stroke-width="3" fill="rgba(78,205,196,0.1)"/>
+                        <rect x="45" y="65" width="40" height="70" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(78,205,196,0.2)"/>
+                        <rect x="90" y="65" width="40" height="70" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(78,205,196,0.2)"/>
+                        <rect x="135" y="65" width="20" height="70" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(78,205,196,0.2)"/>
+                        <line x1="65" y1="85" x2="65" y2="125" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                        <line x1="110" y1="85" x2="110" y2="125" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                        <circle cx="55" cy="100" r="8" fill="currentColor" opacity="0.5"/>
+                        <circle cx="100" cy="100" r="8" fill="currentColor" opacity="0.5"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dedicated Hosting -->
+    <section id="dedicated" class="hosting-section">
+        <div class="bg-orb" style="width: 450px; height: 450px; top: 10%; right: 10%;"></div>
+        
+        <div class="hosting-content">
+            <div class="hosting-visual reveal-left">
+                <div class="hosting-icon-large">
+                    <div class="orbit-ring">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <svg viewBox="0 0 200 200" fill="none">
+                        <rect x="30" y="30" width="140" height="140" rx="12" stroke="currentColor" stroke-width="3" fill="rgba(155,89,182,0.1)"/>
+                        <rect x="50" y="50" width="100" height="80" rx="6" stroke="currentColor" stroke-width="2" fill="rgba(155,89,182,0.2)"/>
+                        <circle cx="100" cy="75" r="15" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <path d="M95 70 L105 75 L95 80" stroke="currentColor" stroke-width="2"/>
+                        <rect x="60" y="100" width="30" height="6" rx="2" fill="currentColor" opacity="0.5"/>
+                        <rect x="60" y="112" width="50" height="6" rx="2" fill="currentColor" opacity="0.5"/>
+                        <rect x="60" y="145" width="80" height="8" rx="3" fill="currentColor" opacity="0.3"/>
+                        <circle cx="160" cy="60" r="8" fill="currentColor"/>
+                        <circle cx="160" cy="80" r="8" fill="currentColor" opacity="0.5"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="hosting-info">
+                <div class="label hosting-label">03 — Dedicated Hosting</div>
+                <h2 class="hosting-title" style="color: var(--dedicated-1);">Total Control</h2>
+                <p class="hosting-description">
+                    The powerhouse of hosting. You rent an entire server exclusively for your website. No sharing, no compromises. Maximum performance, maximum security, and complete freedom to configure as you see fit.
+                </p>
+                <div class="hosting-card">
+                    <div class="card-row">
+                        <div class="card-column">
+                            <h4>Pros</h4>
+                            <ul class="pros">
+                                <li>Complete server resources to yourself</li>
+                                <li>Maximum security and privacy</li>
+                                <li>Full root/admin access</li>
+                                <li>Handles massive traffic effortlessly</li>
+                            </ul>
+                        </div>
+                        <div class="card-column">
+                            <h4>Cons</h4>
+                            <ul class="cons">
+                                <li>Premium price tag</li>
+                                <li>Requires advanced technical skills</li>
+                                <li>Maintenance responsibility falls on you</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cloud Hosting -->
+    <section id="cloud" class="hosting-section">
+        <div class="bg-orb" style="width: 500px; height: 500px; bottom: 10%; left: 5%;"></div>
+        
+        <div class="hosting-content">
+            <div class="hosting-info">
+                <div class="label hosting-label">04 — Cloud Hosting</div>
+                <h2 class="hosting-title" style="color: var(--cloud-1);">Infinite Scalability</h2>
+                <p class="hosting-description">
+                    The modern solution for modern websites. Your data spreads across a network of interconnected servers. If one fails, others seamlessly take over. Born for high-availability and elastic scaling.
+                </p>
+                <div class="hosting-card">
+                    <div class="card-row">
+                        <div class="card-column">
+                            <h4>Pros</h4>
+                            <ul class="pros">
+                                <li>Near-perfect uptime guarantee</li>
+                                <li>Instant resource scaling up or down</li>
+                                <li>Pay only for what you use</li>
+                                <li>Built-in redundancy and failover</li>
+                            </ul>
+                        </div>
+                        <div class="card-column">
+                            <h4>Cons</h4>
+                            <ul class="cons">
+                                <li>Costs can spike with traffic surges</li>
+                                <li>Learning curve for beginners</li>
+                                <li>Less predictable monthly bills</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hosting-visual reveal-right">
+                <div class="hosting-icon-large">
+                    <div class="orbit-ring">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <svg viewBox="0 0 200 200" fill="none">
+                        <circle cx="60" cy="70" r="25" stroke="currentColor" stroke-width="3" fill="rgba(0,217,255,0.1)"/>
+                        <circle cx="140" cy="60" r="20" stroke="currentColor" stroke-width="3" fill="rgba(0,217,255,0.1)"/>
+                        <circle cx="100" cy="120" r="30" stroke="currentColor" stroke-width="3" fill="rgba(0,217,255,0.2)"/>
+                        <circle cx="150" cy="130" r="18" stroke="currentColor" stroke-width="3" fill="rgba(0,217,255,0.1)"/>
+                        <circle cx="50" cy="140" r="15" stroke="currentColor" stroke-width="3" fill="rgba(0,217,255,0.1)"/>
+                        <line x1="60" y1="70" x2="100" y2="120" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                        <line x1="140" y1="60" x2="100" y2="120" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                        <line x1="150" y1="130" x2="100" y2="120" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                        <line x1="50" y1="140" x2="100" y2="120" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                        <circle cx="100" cy="120" r="8" fill="currentColor"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Managed Hosting -->
+    <section id="managed" class="hosting-section">
+        <div class="bg-orb" style="width: 400px; height: 400px; top: 30%; right: -5%;"></div>
+        
+        <div class="hosting-content">
+            <div class="hosting-visual reveal-left">
+                <div class="hosting-icon-large">
+                    <div class="orbit-ring">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <svg viewBox="0 0 200 200" fill="none">
+                        <circle cx="100" cy="100" r="70" stroke="currentColor" stroke-width="3" fill="rgba(240,147,251,0.1)"/>
+                        <circle cx="100" cy="100" r="50" stroke="currentColor" stroke-width="2" fill="rgba(240,147,251,0.15)" stroke-dasharray="8 4"/>
+                        <circle cx="100" cy="100" r="30" stroke="currentColor" stroke-width="2" fill="rgba(240,147,251,0.2)"/>
+                        <path d="M80 100 L95 115 L120 85" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="60" cy="60" r="8" fill="currentColor" opacity="0.3"/>
+                        <circle cx="145" cy="55" r="6" fill="currentColor" opacity="0.3"/>
+                        <circle cx="150" cy="145" r="7" fill="currentColor" opacity="0.3"/>
+                        <circle cx="55" cy="140" r="5" fill="currentColor" opacity="0.3"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="hosting-info">
+                <div class="label hosting-label">05 — Managed Hosting</div>
+                <h2 class="hosting-title" style="color: var(--managed-1);">Set & Forget</h2>
+                <p class="hosting-description">
+                    Not a server type, but a service model. The hosting provider handles everything technical—updates, security patches, backups, and optimization. Apply it to Shared, VPS, or Cloud for peace of mind.
+                </p>
+                <div class="hosting-card">
+                    <div class="card-row">
+                        <div class="card-column">
+                            <h4>Pros</h4>
+                            <ul class="pros">
+                                <li>Zero server management headaches</li>
+                                <li>Expert 24/7 support included</li>
+                                <li>Automatic updates and security</li>
+                                <li>Ideal for non-technical teams</li>
+                            </ul>
+                        </div>
+                        <div class="card-column">
+                            <h4>Cons</h4>
+                            <ul class="cons">
+                                <li>Higher cost than unmanaged</li>
+                                <li>Limited customization options</li>
+                                <li>Dependency on provider's ecosystem</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison">
+        <div class="comparison-content">
+            <h2 class="comparison-title reveal">Quick Comparison</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Best For</th>
+                        <th>Cost</th>
+                        <th>Tech Knowledge</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Type">
+                            <div class="type-cell">
+                                <span class="type-dot shared"></span>
+                                Shared
+                            </div>
+                        </td>
+                        <td data-label="Best For">Small blogs, new sites</td>
+                        <td data-label="Cost"><span class="cost-badge cost-low">Low</span></td>
+                        <td data-label="Tech Knowledge"><span class="cost-badge cost-low">Low</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Type">
+                            <div class="type-cell">
+                                <span class="type-dot vps"></span>
+                                VPS
+                            </div>
+                        </td>
+                        <td data-label="Best For">Growing sites, small businesses</td>
+                        <td data-label="Cost"><span class="cost-badge cost-medium">Medium</span></td>
+                        <td data-label="Tech Knowledge"><span class="cost-badge cost-high">Medium-High</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Type">
+                            <div class="type-cell">
+                                <span class="type-dot dedicated"></span>
+                                Dedicated
+                            </div>
+                        </td>
+                        <td data-label="Best For">High-traffic enterprises</td>
+                        <td data-label="Cost"><span class="cost-badge cost-high">High</span></td>
+                        <td data-label="Tech Knowledge"><span class="cost-badge cost-high">Very High</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Type">
+                            <div class="type-cell">
+                                <span class="type-dot cloud"></span>
+                                Cloud
+                            </div>
+                        </td>
+                        <td data-label="Best For">E-commerce, growing apps</td>
+                        <td data-label="Cost"><span class="cost-badge cost-flexible">Flexible</span></td>
+                        <td data-label="Tech Knowledge"><span class="cost-badge cost-high">High</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Type">
+                            <div class="type-cell">
+                                <span class="type-dot managed"></span>
+                                Managed
+                            </div>
+                        </td>
+                        <td data-label="Best For">Businesses needing support</td>
+                        <td data-label="Cost"><span class="cost-badge cost-high">High</span></td>
+                        <td data-label="Tech Knowledge"><span class="cost-badge cost-low">Low</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h2 class="footer-title reveal">Ready to Launch?</h2>
+        <p class="footer-subtitle reveal">Now that you understand the landscape, finding your perfect hosting is just one click away.</p>
+        <a href="#" class="cta-button reveal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+            Start Your Journey
+        </a>
+        <div class="footer-bottom">
+            <p>Web Hosting Explorer — A scrollytelling experience</p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Nav Dots
+        const navDots = document.querySelectorAll('.nav-dot');
+        const sections = document.querySelectorAll('section');
+
+        function updateNavDots() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navDots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.dataset.section === current) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const section = document.getElementById(dot.dataset.section);
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .hosting-info').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Table row animation
+        const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+        const tableObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        tableRows.forEach(row => tableObserver.observe(row));
+
+        // Parallax effect for background orbs
+        const orbs = document.querySelectorAll('.bg-orb');
+        
+        function parallax() {
+            const scrolled = window.scrollY;
+            orbs.forEach((orb, index) => {
+                const speed = 0.3 + (index * 0.1);
+                orb.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateProgress();
+            updateNavDots();
+            parallax();
+        });
+
+        // Initial calls
+        updateProgress();
+        updateNavDots();
+    </script>
+</body>
+</html>
